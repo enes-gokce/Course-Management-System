@@ -34,7 +34,7 @@ public class FacultyService {
     }
 
     public void updateFaculty(Faculty faculty){
-        facultyRepository.updateFaculty(faculty.getFaculty_id(), faculty.getFaculty_name());
+        facultyRepository.updateFacultyById(faculty.getFaculty_id(), faculty.getFaculty_name());
     }
 
     public void deleteFacultyById(int faculty_id){

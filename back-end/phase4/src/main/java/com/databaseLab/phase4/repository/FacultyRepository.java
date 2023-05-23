@@ -24,7 +24,7 @@ public class FacultyRepository {
     }
 
     public Faculty findFacultyById(int faculty_id){
-        String query = "SELECT * FROM faculty where faculty_id = " + faculty_id;
+        String query = "SELECT * FROM faculty WHERE faculty_id = " + faculty_id;
         return jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(Faculty.class));
     }
 
@@ -33,7 +33,7 @@ public class FacultyRepository {
         jdbcTemplate.update(query, faculty_name);
     }
 
-    public void updateFaculty(int faculty_id, String faculty_name){
+    public void updateFacultyById(int faculty_id, String faculty_name){
         String query = "CALL update_faculty(?, ?)";
         jdbcTemplate.update(query, faculty_id, faculty_name);
     }
