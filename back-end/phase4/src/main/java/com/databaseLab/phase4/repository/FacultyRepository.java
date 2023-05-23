@@ -22,4 +22,24 @@ public class FacultyRepository {
         String query = "SELECT * FROM faculty";
         return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Faculty.class));
     }
+
+    public Faculty findFacultyById(int faculty_id){
+        String query = "SELECT * FROM faculty where faculty_id = " + faculty_id;
+        return jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(Faculty.class));
+    }
+
+    public void insertFaculty(String faculty_name){
+        String query = "CALL insert_faculty(?)";
+        jdbcTemplate.update(query, faculty_name);
+    }
+
+    public void updateFaculty(int faculty_id, String faculty_name){
+        String query = "CALL update_faculty(?, ?)";
+        jdbcTemplate.update(query, faculty_id, faculty_name);
+    }
+
+    public void deleteFacultyById(int faculty_id){
+        String query = "CALL delete_faculty(?)";
+        jdbcTemplate.update(query, faculty_id);
+    }
 }

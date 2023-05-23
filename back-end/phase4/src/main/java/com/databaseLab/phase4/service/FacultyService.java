@@ -24,4 +24,20 @@ public class FacultyService {
         }
         return allFaculties;
     }
+
+    public Faculty getFacultyById(int faculty_id){
+        return facultyRepository.findFacultyById(faculty_id);
+    }
+
+    public void insertFaculty(Faculty faculty){
+        facultyRepository.insertFaculty(faculty.getFaculty_name());
+    }
+
+    public void updateFaculty(Faculty faculty){
+        facultyRepository.updateFaculty(faculty.getFaculty_id(), faculty.getFaculty_name());
+    }
+
+    public void deleteFacultyById(int faculty_id){
+        facultyRepository.deleteFacultyById(faculty_id);
+    }
 }
