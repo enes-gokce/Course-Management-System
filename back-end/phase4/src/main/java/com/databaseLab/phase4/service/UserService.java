@@ -3,7 +3,9 @@ package com.databaseLab.phase4.service;
 import com.databaseLab.phase4.config.JwtUtil;
 import com.databaseLab.phase4.dto.AuthDto;
 import com.databaseLab.phase4.dto.JwtDto;
+import com.databaseLab.phase4.entity.Profile;
 import com.databaseLab.phase4.entity.User;
+import com.databaseLab.phase4.repository.ProfileRepository;
 import com.databaseLab.phase4.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,12 +14,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final ProfileRepository profileRepository;
 
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -28,13 +30,19 @@ public class UserService {
     AuthenticationManager authenticationManager;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, ProfileRepository profileRepository) {
         this.userRepository = userRepository;
+        this.profileRepository = profileRepository;
     }
 
     public User getUserById(int user_id){
         System.out.println(user_id);
-        return userRepository.findUserById(user_id);
+        return userRepository.findUserByUserId(user_id);
+    }
+
+    public User getUserByEmail(String email){
+        Profile profile = profileRepository.findProfileByEmail(email);
+        return userRepository.findUserByProfileId(profile.getProfile_id());
     }
 
     public void updatePassword(User user){
@@ -43,19 +51,21 @@ public class UserService {
     }
 
     public JwtDto login(AuthDto authDto) throws Exception {
+
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authDto.getUser_id(), authDto.getPassword()));
+            System.out.println("entered");
+            Profile profile = profileRepository.findProfileByEmail(authDto.getEmail());
+            User user = userRepository.findUserByProfileId(profile.getProfile_id());
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUser_id(), authDto.getPassword()));
             System.out.println("success");
-        } catch (BadCredentialsException e) {
+            String token = jwtUtil.generateToken(String.valueOf(user.getUser_id()));
+            JwtDto jwtDto = new JwtDto();
+            jwtDto.setToken(token);
+            return jwtDto;
+        } catch (Exception e) {
             JwtDto jwtDto = new JwtDto();
             jwtDto.setToken("null");
             return jwtDto;
         }
-
-        String token = jwtUtil.generateToken(String.valueOf(authDto.getUser_id()));
-        JwtDto jwtDto = new JwtDto();
-        jwtDto.setToken(token);
-        return jwtDto;
     }
-
 }

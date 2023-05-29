@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/auth")
 public class AuthController {
 
@@ -17,13 +18,6 @@ public class AuthController {
         this.userService = userService;
     }
 
-
-
-    @GetMapping("/{user_id}")
-    public User getUserById(@PathVariable int user_id){
-        return userService.getUserById(user_id);
-    }
-
     @PutMapping("/updatePassword")
     public void updatePassword(@RequestBody User user){
         userService.updatePassword(user);
@@ -31,6 +25,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public Object login(@RequestBody AuthDto authDto) throws Exception {
+        System.out.println(authDto);
         return userService.login(authDto);
     }
 }

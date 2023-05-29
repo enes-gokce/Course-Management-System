@@ -1,8 +1,16 @@
 // Home.js
 import React from "react";
+import Navbar from "./Navbar";
 
 function Home(){
-    return <h1>Home Page</h1>;
-};
+
+    return (
+        <div>
+            <Navbar />
+            <h1>Home Page</h1>
+            <p>{sessionStorage.getItem('user')}</p>
+        </div>
+    );
+}
 
 export default Home;

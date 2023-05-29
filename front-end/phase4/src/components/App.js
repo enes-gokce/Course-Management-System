@@ -4,7 +4,6 @@ import Home from "./Home";
 import About from "./About";
 import Contact from "./Contact";
 import Login from "./Login";
-import Navbar from "./Navbar";
 
 function App() {
   return (

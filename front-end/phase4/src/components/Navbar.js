@@ -1,12 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
-function Navigation(){
+function Navbar(props){
+
+    const navigate = useNavigate();
+
+    function logOut(){
+        sessionStorage.setItem('token', null);
+        sessionStorage.setItem('user', null);
+        navigate("/");
+    }
+
     return (
         <nav>
             <ul>
                 <li>
-                    <Link to="/">Home</Link>
+                    <Link to="/home">Home</Link>
                 </li>
                 <li>
                     <Link to="/about">About</Link>
@@ -14,9 +23,12 @@ function Navigation(){
                 <li>
                     <Link to="/contact">Contact</Link>
                 </li>
+                <li>
+                    <button onClick={logOut} className="btn btn-danger">Log out</button>
+                </li>
             </ul>
         </nav>
     );
-};
+}
 
-export default Navigation;
+export default Navbar;

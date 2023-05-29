@@ -1,6 +1,5 @@
 package com.databaseLab.phase4.repository;
 
-import com.databaseLab.phase4.entity.Faculty;
 import com.databaseLab.phase4.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -19,10 +18,13 @@ public class UserRepository {
 
     String tableName = "\"User\"";
 
-    public User findUserById(int user_id){
-        System.out.println(user_id);
+    public User findUserByUserId(int user_id){
         String query = "SELECT * FROM " + tableName + " WHERE user_id = " + user_id;
-        System.out.println(query);
+        return jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(User.class));
+    }
+
+    public User findUserByProfileId(int profile_id){
+        String query = "SELECT * FROM " + tableName + " WHERE profile_id = " + profile_id;
         return jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(User.class));
     }
 
