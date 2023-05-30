@@ -1,0 +1,64 @@
+.container_profile{
+
+    padding: 20px;
+    margin-right: 10px;
+}
+
+.menu{
+
+}
+
+.buttons{
+    padding: 20px;
+    margin-right: 10px;
+    background: lightblue;
+    box-shadow: 0 4px 10px #ccc;
+    border-radius: 10px;
+    height: 100%;
+}
+
+.menu button{
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.main{
+
+}
+
+.fields{
+    padding: 20px;
+    margin-right: 10px;
+    box-shadow: 0 4px 10px #ccc;
+    border-radius: 20px;
+}
+
+.picture-field{
+    box-shadow: 0 4px 10px #ccc;
+    padding: 35px;
+    height: 100%;
+}
+
+.data-field{
+    box-shadow: 0 4px 10px #ccc;
+    padding: 20px;
+    height: 100%;
+}
+
+.profile-picture{
+    border-radius: 100px;
+    border: 1px solid black;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 20px;
+}
+
+.input-group{
+    margin-bottom: 10px;
+}
+
+label{
+    font-weight: normal;
+    margin-top: 1px;
+    margin-right: 5px;
+}

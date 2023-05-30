@@ -1,0 +1,22 @@
+img{
+    border-radius: 100px;
+    border: 1px solid black;
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+    box-shadow: 0 4px 10px #ccc;
+}
+
+.btn-logout{
+    margin-bottom: 6px;
+}
+
+.profile{
+    padding: 0;
+    margin: 2px;
+}
+
+.nameSurname{
+    padding: 0;
+    margin: 2px 0 0;
+}

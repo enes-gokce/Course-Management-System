@@ -5,11 +5,11 @@ import com.databaseLab.phase4.dto.AuthDto;
 import com.databaseLab.phase4.dto.JwtDto;
 import com.databaseLab.phase4.entity.Profile;
 import com.databaseLab.phase4.entity.User;
+import com.databaseLab.phase4.repository.AdvisorRepository;
 import com.databaseLab.phase4.repository.ProfileRepository;
 import com.databaseLab.phase4.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,7 +30,7 @@ public class UserService {
     AuthenticationManager authenticationManager;
 
     @Autowired
-    public UserService(UserRepository userRepository, ProfileRepository profileRepository) {
+    public UserService(UserRepository userRepository, ProfileRepository profileRepository, AdvisorRepository advisorRepository) {
         this.userRepository = userRepository;
         this.profileRepository = profileRepository;
     }
@@ -43,6 +43,10 @@ public class UserService {
     public User getUserByEmail(String email){
         Profile profile = profileRepository.findProfileByEmail(email);
         return userRepository.findUserByProfileId(profile.getProfile_id());
+    }
+
+    public String getRoleOfUser(int user_id){
+        return userRepository.getRoleOfUser(user_id);
     }
 
     public void updatePassword(User user){

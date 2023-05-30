@@ -20,4 +20,9 @@ public class UserController {
         System.out.println(userService.getUserByEmail(email));
         return userService.getUserByEmail(email);
     }
+
+    @GetMapping("/role/{user_id}")
+    public String getUserByEmail(@PathVariable int user_id){
+        return userService.getRoleOfUser(user_id);
+    }
 }

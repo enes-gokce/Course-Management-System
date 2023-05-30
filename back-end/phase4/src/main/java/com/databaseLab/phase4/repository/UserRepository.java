@@ -32,4 +32,17 @@ public class UserRepository {
         String query = "CALL update_user(?, ?, ?, ?)";
         jdbcTemplate.update(query, user_id, dept_id, password, profile_id);
     }
+
+    public String getRoleOfUser(int user_id){
+        String[] tableNames = {"Admin", "Teacher", "Student"};
+        String role = "";
+        for(String tableName : tableNames){
+            String query = "SELECT COUNT(*) FROM " + tableName + " WHERE user_id = " + user_id;
+            int count =  jdbcTemplate.queryForObject(query, Integer.class);
+            if(count > 0 ){
+                role = tableName;
+            }
+        }
+        return role;
+    }
 }

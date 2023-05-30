@@ -1,0 +1,71 @@
+.container-fluid{
+
+    padding: 20px;
+    margin-right: 10px;
+}
+
+.menu{
+
+}
+
+.buttons{
+    padding: 20px;
+    margin-right: 10px;
+    background: lightblue;
+    box-shadow: 0 4px 10px #ccc;
+    border-radius: 10px;
+    height: 270px;
+}
+
+.menu button{
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.main{
+
+}
+
+.boxes{
+    padding: 20px;
+    margin-right: 10px;
+    box-shadow: 0 4px 10px #ccc;
+    border-radius: 20px;
+    height: 270px;
+}
+
+.box {
+    background: lightblue;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px #ccc;
+    padding: 10px;
+    width: 253px;
+    margin-right: 25px;
+    float: left;
+}
+.box h1 {
+    font-size: 1.1em;
+    margin-bottom: 6px;
+}
+.box p {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.box button {
+    position: relative;
+    float: right;
+    margin-right: 10px;
+    color: #f5ba13;
+    border: none;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    outline: none;
+}
+
+.box hr{
+    border: 2.5px solid black;
+}
