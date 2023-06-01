@@ -1,0 +1,39 @@
+.container_grades{
+
+    padding: 20px;
+    margin-right: 10px;
+}
+
+.menu{
+
+}
+
+.buttons{
+    padding: 20px;
+    margin-right: 10px;
+    background: lightblue;
+    box-shadow: 0 4px 10px #ccc;
+    border-radius: 10px;
+    height: 100%;
+}
+
+.menu button{
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.main{
+
+}
+
+.table-div{
+    padding: 20px;
+    margin-right: 10px;
+    box-shadow: 0 4px 10px #ccc;
+    border-radius: 20px;
+}
+
+.download-button{
+    position: absolute;
+    left: 86%;
+}

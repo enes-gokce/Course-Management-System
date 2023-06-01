@@ -1,6 +1,6 @@
 // Profile.js
 import React, {useState} from "react";
-import Navbar from "./Navbar";
+import Navbar from "../Navbar/Navbar";
 import {useNavigate} from "react-router-dom";
 import "./Profile.css"
 
@@ -52,7 +52,7 @@ function Profile(){
                     <div className="menu col-md-2">
                         <div className="buttons">
                             <button type="button" className="btn btn-secondary" onClick={() => navigate("/registration")}>Ders Kayıt</button>
-                            <button type="button" className="btn btn-secondary">Not Listesi</button>
+                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/grades")}>Not Listesi</button>
                             <button type="button" className="btn btn-secondary">Transcript</button>
                         </div>
                     </div>

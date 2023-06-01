@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
-import ProfileService from "./services/ProfileService";
-import UserService from "./services/UserService";
+import ProfileService from "../services/ProfileService";
+import UserService from "../services/UserService";
 import "./Navbar.css"
 
 function Navbar(props){

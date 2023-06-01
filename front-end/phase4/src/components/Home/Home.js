@@ -1,10 +1,10 @@
 // Home.js
 import React, {useEffect, useState} from "react";
-import Navbar from "./Navbar";
+import Navbar from "../Navbar/Navbar";
 import "./Home.css";
 import {useNavigate} from "react-router-dom";
-import UserService from "./services/UserService";
-import ProfileService from "./services/ProfileService";
+import UserService from "../services/UserService";
+import ProfileService from "../services/ProfileService";
 
 function Home(){
 
@@ -28,7 +28,7 @@ function Home(){
                     <div className="menu col-md-2">
                         <div className="buttons">
                             <button type="button" className="btn btn-secondary" onClick={() => navigate("/registration")}>Ders Kayıt</button>
-                            <button type="button" className="btn btn-secondary">Not Listesi</button>
+                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/grades")}>Not Listesi</button>
                             <button type="button" className="btn btn-secondary">Transcript</button>
                         </div>
                     </div>
