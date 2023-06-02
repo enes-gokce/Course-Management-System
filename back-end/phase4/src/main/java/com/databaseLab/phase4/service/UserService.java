@@ -15,6 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -49,9 +51,12 @@ public class UserService {
         return userRepository.getRoleOfUser(user_id);
     }
 
-    public void updatePassword(User user){
-     String password = passwordEncoder.encode(user.getPassword());
-     userRepository.updateUser(user.getUser_id(), user.getDept_id(), password, user.getProfile_id());
+    public void encodeAllPasswords(){
+        List<User> allUsers = userRepository.findAllUsers();
+        for(User user : allUsers) {
+            String password = passwordEncoder.encode(user.getPassword());
+            userRepository.updateUser(user.getUser_id(), user.getDept_id(), password, user.getProfile_id());
+        }
     }
 
     public JwtDto login(AuthDto authDto) throws Exception {

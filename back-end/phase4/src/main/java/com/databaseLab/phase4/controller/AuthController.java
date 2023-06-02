@@ -18,9 +18,9 @@ public class AuthController {
         this.userService = userService;
     }
 
-    @PutMapping("/updatePassword")
-    public void updatePassword(@RequestBody User user){
-        userService.updatePassword(user);
+    @PutMapping("/encodeAllPasswords")
+    public void updatePassword(){
+        userService.encodeAllPasswords();
     }
 
     @PostMapping("/login")

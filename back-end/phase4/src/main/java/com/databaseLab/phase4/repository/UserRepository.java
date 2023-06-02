@@ -6,6 +6,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class UserRepository {
 
@@ -44,5 +46,10 @@ public class UserRepository {
             }
         }
         return role;
+    }
+
+    public List<User> findAllUsers(){
+        String query = "SELECT * FROM " + tableName;
+        return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(User.class));
     }
 }

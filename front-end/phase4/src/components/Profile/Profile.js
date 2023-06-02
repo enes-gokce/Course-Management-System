@@ -1,11 +1,16 @@
 // Profile.js
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Navbar from "../Navbar/Navbar";
 import {useNavigate} from "react-router-dom";
 import "./Profile.css"
+import ProfileService from "../services/ProfileService";
 
 function Profile(){
 
+    const token = sessionStorage.getItem('token');
+    const profile_id = JSON.parse(sessionStorage.getItem('user')).profile_id;
+
+    const [file, setFile] = useState();
     const [formData, setFormData] = useState({
         name: '',
         surname: '',
@@ -16,10 +21,18 @@ function Profile(){
         confirmPassword: '',
         picture: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
     });
+    const [pictureURL, setPictureURL] = useState("");
 
     const navigate = new useNavigate();
 
-    const handleChange = (event) => {
+    useEffect(() => {
+        ProfileService.getProfilePicture(profile_id, token).then(response => {
+            const pictureBlob = new Blob([response.data], { type: 'image/jpeg' });
+            setPictureURL(URL.createObjectURL(pictureBlob));
+        })
+    }, [token, profile_id])
+
+    function handleChange(event){
         const { name, value } = event.target;
         setFormData((prevData) => ({
             ...prevData,
@@ -27,22 +40,24 @@ function Profile(){
         }));
     };
 
-    const handlePictureChange = (event) => {
+    function handlePictureChange(event){
         const file = event.target.files[0];
-        const objectURL = URL.createObjectURL(file);
-        setFormData((prevData) => ({
-            ...prevData,
-            picture: objectURL,
-        }));
-        console.log(objectURL);
-    };
+        setFile(file);
+        setPictureURL(URL.createObjectURL(file));
+    }
 
-    const handleSubmit = (event) => {
+    function handleSubmit(event){
         event.preventDefault();
         // Handle form submission here, e.g. send data to server
         console.log(formData);
-    };
+    }
 
+    function handleUpload(){
+        const pictureFormData = new FormData();
+        pictureFormData.append('file', file);
+        ProfileService.uploadProfilePicture(token, profile_id, pictureFormData)
+        window.location.reload();
+    }
 
     return (
         <div>
@@ -62,9 +77,11 @@ function Profile(){
                                 <div className="col-md-1"></div>
                                 <div className="menu col-md-4">
                                     <div className="picture-field text-center">
-                                        <img className="profile-picture" alt="profile_picture" src={formData.picture}/>
+                                        <img className="profile-picture" alt="profile_picture" src={pictureURL}/>
                                         <input className="m-auto" type="file" name="picture" onChange={handlePictureChange} />
-                                        <button onClick={() => handlePictureChange}>Submit</button>
+                                        <br />
+                                        <br />
+                                        <button className="btn btn btn-secondary btn-sm" onClick={() => handleUpload()}>Upload</button>
                                         <br />
                                     </div>
                                 </div>

@@ -1,11 +1,14 @@
 package com.databaseLab.phase4.repository;
 
+import com.databaseLab.phase4.dto.PictureDto;
 import com.databaseLab.phase4.entity.Faculty;
 import com.databaseLab.phase4.entity.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.util.Arrays;
 
 @Repository
 public class ProfileRepository {
@@ -23,10 +26,18 @@ public class ProfileRepository {
     }
 
     public Profile findProfileByEmail(String email){
-        System.out.println(email);
         email = "'" + email + "'";
         String query = "SELECT * FROM profile WHERE email = " + email;
-        System.out.println(query);
         return jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(Profile.class));
+    }
+
+    public void uploadPicture(int profile_id, byte[] file){
+        String query = "UPDATE profile SET profile_picture = ? WHERE profile_id = ?";
+        jdbcTemplate.update(query, file, profile_id);
+    }
+
+    public byte[] findPictureById(int profile_id){
+        String query = "SELECT profile_picture FROM profile WHERE profile_id = ?";
+        return jdbcTemplate.queryForObject(query, new Object[]{profile_id}, byte[].class);
     }
 }

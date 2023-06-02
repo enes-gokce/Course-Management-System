@@ -3,6 +3,8 @@ package com.databaseLab.phase4.entity;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
+import javax.persistence.Lob;
+
 @Data
 public class Profile {
 
@@ -13,4 +15,8 @@ public class Profile {
     private String phone_number;
     private String email;
     private int address_id;
+
+    @Lob
+    private byte[] data;
+
 }

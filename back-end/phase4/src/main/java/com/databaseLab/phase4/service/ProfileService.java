@@ -5,6 +5,10 @@ import com.databaseLab.phase4.repository.AdvisorRepository;
 import com.databaseLab.phase4.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.Arrays;
 
 @Service
 public class ProfileService {
@@ -24,6 +28,14 @@ public class ProfileService {
 
     public Profile getAdvisorProfileByStudentId(int student_id){
         return getProfileById(advisorRepository.getAdvisorIdByStudentId(student_id));
+    }
+
+    public void uploadProfilePicture(int profile_id, MultipartFile file) throws IOException {
+        profileRepository.uploadPicture(profile_id, file.getBytes());
+    }
+
+    public byte[] getPictureById(int profile_id){
+        return profileRepository.findPictureById(profile_id);
     }
 }
 
