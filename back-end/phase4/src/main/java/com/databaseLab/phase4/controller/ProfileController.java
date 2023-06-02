@@ -41,7 +41,6 @@ public class ProfileController {
     @GetMapping("/picture/{profileId}")
     public ResponseEntity<byte[]> getProfilePicture(@PathVariable int profileId) {
         byte[] pictureData = profileService.getPictureById(profileId);
-        System.out.println(pictureData);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_JPEG);
         return new ResponseEntity<>(pictureData, headers, HttpStatus.OK);
