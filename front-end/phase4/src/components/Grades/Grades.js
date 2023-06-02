@@ -28,7 +28,7 @@ function Grades(props) {
         [grade])
 
     useEffect(() => {
-        CourseService.getCurrentSemesterCourses(user_id, token).then(response => {
+        CourseService.getRegisteredSections(user_id, token).then(response => {
             console.log(response.data);
             setGrades(response.data);
         })

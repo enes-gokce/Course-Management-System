@@ -1,7 +1,7 @@
 import React from "react";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Home from "./Home/Home";
-import Registration from "././Registration";
+import Registration from "./Registration/Registration";
 import Profile from "./Profile/Profile";
 import Login from "./Login/Login";
 import Grades from "./Grades/Grades";

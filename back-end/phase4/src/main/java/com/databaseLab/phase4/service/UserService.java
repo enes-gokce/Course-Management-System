@@ -48,7 +48,7 @@ public class UserService {
     }
 
     public String getRoleOfUser(int user_id){
-        return userRepository.getRoleOfUser(user_id);
+        return userRepository.findRoleOfUser(user_id);
     }
 
     public void encodeAllPasswords(){
