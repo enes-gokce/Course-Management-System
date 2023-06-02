@@ -30,7 +30,19 @@ function Profile(){
             const pictureBlob = new Blob([response.data], { type: 'image/jpeg' });
             setPictureURL(URL.createObjectURL(pictureBlob));
         })
+
     }, [token, profile_id])
+
+    useEffect(() => {
+        ProfileService.getProfileById(profile_id, token).then(response => {
+            setFormData({
+                ...formData,
+                email: response.data.email,
+                phoneNumber: response.data.phone_number
+            })
+        })
+    }, [token, profile_id])
+
 
     function handleChange(event){
         const { name, value } = event.target;
@@ -49,7 +61,7 @@ function Profile(){
     function handleSubmit(event){
         event.preventDefault();
         // Handle form submission here, e.g. send data to server
-        console.log(formData);
+       // console.log(formData);
     }
 
     function handleUpload(){

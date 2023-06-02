@@ -1,6 +1,5 @@
 package com.databaseLab.phase4.repository;
 
-import com.databaseLab.phase4.dto.PictureDto;
 import com.databaseLab.phase4.entity.Faculty;
 import com.databaseLab.phase4.entity.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
