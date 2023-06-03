@@ -44,10 +44,18 @@ function Profile(){
     }, [token, profile_id])
 
 
-    function handleChange(event){
+    /*function handleChange(event){
         const { name, value } = event.target;
         setFormData((prevData) => ({
             ...prevData,
+            [name]: value,
+        }));
+    };*/
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormData((prevFormData) => ({
+            ...prevFormData,
             [name]: value,
         }));
     };
@@ -58,11 +66,43 @@ function Profile(){
         setPictureURL(URL.createObjectURL(file));
     }
 
-    function handleSubmit(event){
+    const  handleSubmit = (event) => {
         event.preventDefault();
         // Handle form submission here, e.g. send data to server
-       // console.log(formData);
-    }
+
+        const { currentPassword, newPassword, confirmPassword } = formData;
+
+        if (currentPassword === 'passwordFromProfile') { // Replace 'passwordFromProfile' with the actual password from the profile
+            // Check if new password and confirm new password are not empty and match
+            if (newPassword.trim() !== '' && newPassword === confirmPassword) {
+                // Update password in the database
+                updatePasswordInDatabase(newPassword);
+            }
+        }
+
+
+        if (currentPassword === 'passwordFromProfile') { // Replace 'passwordFromProfile' with the actual password from the profile
+            // Filter out empty values from formData
+            const updatedData = Object.fromEntries(
+                Object.entries(formData).filter(([key, value]) => value.trim() !== '' && key !== 'currentPassword')
+            );
+
+        updateProfileInDatabase(updatedData);
+    };
+
+    const updateProfileInDatabase = (updatedData) => {
+        // Perform your API call or database update here to save the updated profile data
+        // You can use libraries like Axios or fetch to make the HTTP request
+        // Pass the updatedData object to the API endpoint or database update function
+
+        console.log(updatedData); // Just for testing, you can remove this line
+    };
+
+    const updatePasswordInDatabase = (newPassword) => {
+        // Perform your API call or database update here to update the password
+        // Pass the newPassword to the API endpoint or database update function
+        console.log('Updating password:', newPassword); // Just for testing, you can remove this line
+    };
 
     function handleUpload(){
         const pictureFormData = new FormData();
@@ -157,6 +197,7 @@ function Profile(){
             </div>
         </div>
     );
+}
 }
 
 export default Profile;

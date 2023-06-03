@@ -34,6 +34,10 @@ public class ProfileService {
         profileRepository.uploadPicture(profile_id, file.getBytes());
     }
 
+    public void updateVal(int profile_id, String val_to_change, String val) throws IOException {
+        profileRepository.updateValue(profile_id, val_to_change, val);
+    }
+
     public byte[] getPictureById(int profile_id){
         return profileRepository.findPictureById(profile_id);
     }

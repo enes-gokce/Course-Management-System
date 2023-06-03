@@ -35,6 +35,16 @@ public class ProfileRepository {
         jdbcTemplate.update(query, file, profile_id);
     }
 
+    public void updateValue(int profile_id, String value_to_change, String value){
+        String query = "UPDATE profile SET " + value_to_change + " = ? WHERE profile_id = ?";
+        jdbcTemplate.update(query, value, profile_id);
+    }
+
+    public void updatePassword(int profile_id, String password){
+        String query = "UPDATE profile SET password = ? WHERE profile_id = ?";
+        jdbcTemplate.update(query, password, profile_id);
+    }
+
     public byte[] findPictureById(int profile_id){
         String query = "SELECT profile_picture FROM profile WHERE profile_id = ?";
         return jdbcTemplate.queryForObject(query, new Object[]{profile_id}, byte[].class);
