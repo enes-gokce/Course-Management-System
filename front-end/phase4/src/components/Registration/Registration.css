@@ -43,3 +43,20 @@
     box-shadow: 0 4px 10px #ccc;
     border-radius: 20px;
 }
+
+.info-container{
+    display: flex;
+}
+
+.info{
+    margin-right: 5%;
+}
+
+.basket-header{
+    display: flex;
+}
+
+.btn-register{
+    position: absolute;
+    left: 86%;
+}

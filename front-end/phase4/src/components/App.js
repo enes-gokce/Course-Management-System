@@ -5,6 +5,7 @@ import Registration from "./Registration/Registration";
 import Profile from "./Profile/Profile";
 import Login from "./Login/Login";
 import Grades from "./Grades/Grades";
+import Transcript from "./Transcript/Transcript";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
                   <Route path="/registration" element={<Registration />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/grades" element={<Grades />} />
+                  <Route path="/transcript" element={<Transcript />} />
               </Routes>
           </Router>
       </div>

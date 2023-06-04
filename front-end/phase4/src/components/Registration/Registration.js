@@ -12,14 +12,12 @@ function Registration() {
     const user_id = JSON.parse(sessionStorage.getItem('user')).user_id;
     const navigate = new useNavigate();
 
-    const [course, setCourse] = useState({code:"", title:"", ects:"", year:"", section:"", quota:""});
     const [allCourses, setAllCourses] = useState([]);
     const [basket, setBasket] = useState([]);
     const [year, setYear] = useState(1);
     const [totalECTS, setTotalECTS] = useState(11);
     const [numberOfCourses, setNumberOfCourses] = useState(11);
-    const [registrationStatus, setRegistrationStatus] = useState("");
-    const [advisorApprovalStatus, setAdvisorApprovalStatus] = useState("");
+    const [statusDto, setStatusDto] = useState({registrationStatus:"", advisorApprovalStatus:""})
 
     useEffect(() => {
         CourseService.getCurrentSemesterCourses(year, token).then(response => {
@@ -31,6 +29,10 @@ function Registration() {
         CourseService.getBasketStatistics(user_id, token).then(response => {
             setTotalECTS(response.data.totalECTS);
             setNumberOfCourses(response.data.numberOfCourses);
+        })
+        CourseService.getRegistrationStatus(user_id, token).then(response => {
+            console.log(response.data)
+            setStatusDto({registrationStatus: response.data.registration_status, advisorApprovalStatus: response.data.advisor_approval});
         })
     }, [user_id, token, year])
 
@@ -60,6 +62,12 @@ function Registration() {
         }
     }
 
+    function handleRegistration(){
+        const status = {registration_status: "registered", advisor_approval: statusDto.advisorApprovalStatus};
+        CourseService.updateRegistrationStatus(user_id, token, status);
+        basket.map(course => CourseService.updateSectionQuota(course.section_id, "decrease", token));
+        window.location.reload();
+    }
     return (
         <div>
             <Navbar />
@@ -67,9 +75,9 @@ function Registration() {
                 <div className="row">
                     <div className="menu col-md-2">
                         <div className="buttons">
-                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/registration")}>Ders Kayıt</button>
-                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/grades")}>Not Listesi</button>
-                            <button type="button" className="btn btn-secondary">Transcript</button>
+                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/registration")}>Course Registration</button>
+                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/grades")}>Grades</button>
+                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/transcript")}>Transcript</button>
                         </div>
                     </div>
                     <div className="main col-md-10">
@@ -103,7 +111,7 @@ function Registration() {
                                                 <td>{course.ects}</td>
                                                 <td>{course.section_id}</td>
                                                 <td>{course.quota}</td>
-                                                <td>{!isCourseRegistered(course.section_id) && <button className="btn btn-sm btn-success" onClick={() => handleRegisteredCourse(course)}>Register</button>}</td>
+                                                <td>{!isCourseRegistered(course.section_id) && statusDto.registrationStatus === "not registered" && <button className="btn btn-sm btn-success" onClick={() => handleRegisteredCourse(course)}>Add</button>}</td>
                                             </tr>
                                         ))}
                                         </tbody>
@@ -112,7 +120,10 @@ function Registration() {
                             </div>
 
                             <div className="basket">
-                                <h5>Basket</h5>
+                                <div className="basket-header">
+                                    <h5>Basket</h5>
+                                    {statusDto.registrationStatus === "not registered" && <button className="btn btn-secondary btn-register" onClick={handleRegistration}>Register</button>}
+                                </div>
                                 <div className="basket-table">
                                     <table className="table table-striped table-hover">
                                         <thead>
@@ -133,17 +144,17 @@ function Registration() {
                                                 <td>{course.ects}</td>
                                                 <td>{course.section_id}</td>
                                                 <td>{course.quota}</td>
-                                                <td>{<button className="btn btn-sm btn-danger" onClick={() => handleDroppedCourse(course.section_id, course.ects)}>Drop</button>}</td>
+                                                <td>{statusDto.registrationStatus === "not registered" && <button className="btn btn-sm btn-danger" onClick={() => handleDroppedCourse(course.section_id, course.ects)}>Drop</button>}</td>
                                             </tr>
                                         ))}
                                         </tbody>
                                     </table>
                                 </div>
-                                <div>
-                                    <h6>Total ECTS:{totalECTS}</h6>
-                                    <h6>Number of Courses:{numberOfCourses}</h6>
-                                    <h6>Registration Status:{registrationStatus}</h6>
-                                    <h6>Advisor Approval Status:{advisorApprovalStatus}</h6>
+                                <div className="info-container">
+                                    <h6 className="info"><b>Total ECTS:</b> {totalECTS}</h6>
+                                    <h6 className="info"><b>Number of Courses:</b> {numberOfCourses}</h6>
+                                    <h6 className="info"><b>Registration Status:</b> {statusDto.registrationStatus}</h6>
+                                    <h6 className="info"><b>Advisor Approval Status:</b> {statusDto.advisorApprovalStatus}</h6>
                                 </div>
                             </div>
                         </div>

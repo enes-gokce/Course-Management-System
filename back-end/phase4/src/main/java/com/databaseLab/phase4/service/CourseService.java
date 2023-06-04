@@ -1,6 +1,7 @@
 package com.databaseLab.phase4.service;
 
-import com.databaseLab.phase4.dto.BasketStatistics;
+import com.databaseLab.phase4.dto.BasketStatisticsDto;
+import com.databaseLab.phase4.dto.StatusDto;
 import com.databaseLab.phase4.entity.Course;
 import com.databaseLab.phase4.entity.RegisteredSections;
 import com.databaseLab.phase4.repository.CourseRepository;
@@ -46,9 +47,21 @@ public class CourseService {
         courseRepository.deleteSectionFromBasket(basket_id, section_id);
     }
 
-    public BasketStatistics getBasketStatistics(int user_id){
+    public void updateSectionQuota(int section_id, String operation){
+        courseRepository.updateSectionQuota(section_id, operation);
+    }
+
+    public BasketStatisticsDto getBasketStatistics(int user_id){
         int basket_id = userRepository.findBasketIdOfStudent(user_id);
         System.out.println(courseRepository.findBasketStatistics(basket_id).getTotalECTS());
         return courseRepository.findBasketStatistics(basket_id);
+    }
+
+    public StatusDto getRegistrationStatus(int user_id){
+        return courseRepository.findRegistrationStatus(user_id);
+    }
+
+    public void updateRegistrationStatus(int user_id, StatusDto statusDto){
+        courseRepository.updateRegistrationStatus(user_id, statusDto);
     }
 }

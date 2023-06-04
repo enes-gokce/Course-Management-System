@@ -27,32 +27,33 @@ function Home(){
                 <div className="row">
                     <div className="menu col-md-2">
                         <div className="buttons">
-                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/registration")}>Ders Kayıt</button>
-                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/grades")}>Not Listesi</button>
-                            <button type="button" className="btn btn-secondary">Transcript</button>
+                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/registration")}>Course Registration</button>
+                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/grades")}>Grades</button>
+                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/transcript")}>Transcript</button>
                         </div>
                     </div>
                     <div className="main col-md-10">
                         <div className="boxes">
                             <div className="box">
-                                <h1>Aktif Dönem</h1>
+                                <h1>Current Semester</h1>
                                 <hr/>
                                 <p>2022-2023 Spring</p>
                             </div>
                             <div className="box">
-                                <h1>Danışman</h1>
+                                <h1>Advisor</h1>
                                 <hr/>
                                 <p>{`${advisor.name} ${advisor.surname}`} <br/> {advisor.email} </p>
                             </div>
                             <div className="box">
-                                <h1>Öğrenim Bilgileri</h1>
+                                <h1>Education Information</h1>
                                 <hr/>
-                                <p>Mühendislik Fakültesi / Bilgisayar Mühendisliği</p>
+                                <p>Engineering Faculty / Computer Engineering</p>
                             </div>
                             <div className="box">
-                                <h1>Öğrenci Bilgileri</h1>
+                                <h1>Student Information</h1>
                                 <hr/>
-                                <p>Mühendislik Fakültesi / Bilgisayar Mühendisliği</p>
+                                <p>Date of registration: 06.09.2022</p>
+                                <p>CGPA: 3.36</p>
                             </div>
                         </div>
                     </div>

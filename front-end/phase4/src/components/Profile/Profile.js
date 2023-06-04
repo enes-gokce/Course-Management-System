@@ -66,9 +66,9 @@ function Profile(){
                 <div className="row">
                     <div className="menu col-md-2">
                         <div className="buttons">
-                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/registration")}>Ders Kayıt</button>
-                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/grades")}>Not Listesi</button>
-                            <button type="button" className="btn btn-secondary">Transcript</button>
+                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/registration")}>Course Registration</button>
+                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/grades")}>Grades</button>
+                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/transcript")}>Transcript</button>
                         </div>
                     </div>
                     <div className="main col-md-10">

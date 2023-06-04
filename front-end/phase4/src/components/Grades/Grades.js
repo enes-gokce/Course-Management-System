@@ -13,19 +13,8 @@ function Grades(props) {
     const user_id = JSON.parse(sessionStorage.getItem('user')).user_id;
     let count = 0;
 
-    const [grade, setGrade] = useState({
-        section_id: null,
-        title: '',
-        ects: null,
-        name: '',
-        surname: '',
-        midterm_grade: null,
-        project_grade: null,
-        final_grade: null,
-        letter_grade: ''
-    })
-    const [grades, setGrades] = useState(
-        [grade])
+
+    const [grades, setGrades] = useState([])
 
     useEffect(() => {
         CourseService.getRegisteredSections(user_id, token).then(response => {
@@ -52,7 +41,7 @@ function Grades(props) {
         });
 
         // Save the PDF
-        doc.save('table.pdf');
+        doc.save('grades.pdf');
     }
 
     return (
@@ -62,9 +51,9 @@ function Grades(props) {
                 <div className="row">
                     <div className="menu col-md-2">
                         <div className="buttons">
-                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/registration")}>Ders Kayıt</button>
-                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/grades")}>Not Listesi</button>
-                            <button type="button" className="btn btn-secondary">Transcript</button>
+                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/registration")}>Course Registration</button>
+                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/grades")}>Grades</button>
+                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/transcript")}>Transcript</button>
                         </div>
                     </div>
                     <div className="main col-md-10">
@@ -74,6 +63,7 @@ function Grades(props) {
                                 <thead>
                                 <tr>
                                     <th>Section</th>
+                                    <th>Course Code</th>
                                     <th>Course Title</th>
                                     <th>ECTS</th>
                                     <th>Teacher</th>
@@ -87,6 +77,7 @@ function Grades(props) {
                                 {grades.map((grade) => (
                                     <tr key={++count}>
                                         <td>{grade.section_id}</td>
+                                        <td>{grade.code}</td>
                                         <td>{grade.title}</td>
                                         <td>{grade.ects}</td>
                                         <td>{grade.name + " " + grade.surname}</td>
