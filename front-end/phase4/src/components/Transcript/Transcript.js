@@ -4,6 +4,10 @@ import {useNavigate} from "react-router-dom";
 import CourseService from "../services/CourseService";
 import {jsPDF} from "jspdf";
 import autoTable from "jspdf-autotable";
+import TranscriptService from "../services/TranscriptService";
+import grades from "../Grades/Grades";
+import SemesterService from "../services/SemesterService";
+import "./Transcript.css";
 
 function Transcript() {
 
@@ -11,60 +15,43 @@ function Transcript() {
     const token = sessionStorage.getItem('token');
     const user_id = JSON.parse(sessionStorage.getItem('user')).user_id;
     let count = 0;
-    let semesterCount = -1;
-    const semester = ["2022-2023 Fall", "2022-2023 Spring"]
 
-    const [ects] = useState([{semester: 23, total: 23}, {semester: 22, total: 45}]);
-    const [gpa] = useState([{gpa: 3.43, cgpa: 3.43}, {gpa: 3.26, cgpa: 3.36}]);
+    const [semesters, setSemesters] = useState([]);
+    const [allGrades, setAllGrades] = useState([]);
+    const [transcriptInfos, setTranscriptInfos] = useState([]);
 
-    const [grades1, setGrades1] = useState([
-        {code:"MAT123", title:"Calculus I", ects:5, letterGrade:"B1"},
-        {code:"BBM101", title:"Programming I", ects:6, letterGrade:"B2"},
-        {code:"FIZ137", title:"Physics I", ects:5, letterGrade:"A3"},
-        {code:"BBM102", title:"Programming Lab I", ects:4, letterGrade:"A1"},
-        {code:"TKD103", title:"Turkish Language I", ects:3, letterGrade:"A2"}
-    ])
+    useEffect(() => {
+        TranscriptService.getTranscriptByStudentId(user_id, token).then(response => {
+            setAllGrades(response.data);
+        })
 
-    const [grades2, setGrades2] = useState([
-        {code:"MAT124", title:"Calculus II", ects:5, letterGrade:"B3"},
-        {code:"BBM102", title:"Programming II", ects:6, letterGrade:"B1"},
-        {code:"FIZ138", title:"Physics II", ects:5, letterGrade:"A3"},
-        {code:"BBM104", title:"Programming Lab II", ects:4, letterGrade:"A2"},
-        {code:"FIZ139", title:"Physics Lab", ects:2, letterGrade:"B2"}
-    ])
+        TranscriptService.getTranscriptInfos(user_id, token).then(response => {
+            setTranscriptInfos(response.data);
+        })
 
-    const [allGrades, setAllGrades] = useState([grades1, grades2]);
+        SemesterService.getSemestersOfStudent(user_id, token).then(response => {
+            setSemesters(response.data);
+        })
+    }, [user_id, token])
 
     function downloadTableAsPdf() {
 
         let tempAllGrades = allGrades;
-        tempAllGrades[0].push({});
-        tempAllGrades[0].push({
-            totalEcts: "",
-            cgpa: "",
-            semesterEcts: "Semester ECTS: " +ects[0].semester,
-            gpa: "GPA: " + gpa[0].gpa,
-        });
-        tempAllGrades[0].push({
-            semesterEcts: "",
-            gpa: "",
-            totalEcts: "Total ECTS: " + ects[0].total,
-            cgpa: "CGPA: " + gpa[0].cgpa
-        });
-
-        tempAllGrades[1].push({});
-        tempAllGrades[1].push({
-            totalEcts: "",
-            cgpa: "",
-            semesterEcts: "Semester ECTS: " +ects[1].semester,
-            gpa: "GPA: " + gpa[1].gpa,
-        })
-        tempAllGrades[1].push({
-            semesterEcts: "",
-            gpa: "",
-            totalEcts: "Total ECTS: " + ects[1].total,
-            cgpa: "CGPA: " + gpa[1].cgpa
-        })
+        for(let i = 0; i<tempAllGrades.length; i++){
+            tempAllGrades[i].push({});
+            tempAllGrades[i].push({
+                totalEcts: "",
+                cgpa: "",
+                semesterEcts: "Semester ECTS: " +transcriptInfos[i].semester_ects,
+                gpa: "GPA: " + transcriptInfos[i].gpa.toFixed(2)
+            });
+            tempAllGrades[i].push({
+                semesterEcts: "",
+                gpa: "",
+                totalEcts: "Total ECTS: " + transcriptInfos[i].total_ects,
+                cgpa: "CGPA: " + transcriptInfos[i].cgpa.toFixed(2)
+            });
+        }
 
         const doc = new jsPDF({ orientation: 'landscape' });
 
@@ -99,10 +86,10 @@ function Transcript() {
                     <div className="main col-md-10">
                         <h3>Transcript</h3>
                         <div className="table-div mt-2">
-                            {allGrades.map((grades) => (
-                                <div>
+                            {allGrades.map((grades, index) => (
+                                <div key={++count}>
                                     <br/>
-                                    <h5>{semester[++semesterCount]}</h5>
+                                    <h5>{semesters[index].year + " " + semesters[index].period}</h5>
                                     <table className="table table-striped table-hover">
                                         <thead>
                                         <tr>
@@ -118,23 +105,23 @@ function Transcript() {
                                                 <td>{grade.code}</td>
                                                 <td>{grade.title}</td>
                                                 <td>{grade.ects}</td>
-                                                <td>{grade.letterGrade}</td>
+                                                <td>{grade.letter_grade}</td>
                                             </tr>
                                         ))}
                                         </tbody>
                                     </table>
                                     <div className="info-container">
-                                        <h6 className="info"><b>Semester ECTS:</b> {ects[semesterCount].semester}</h6>
-                                        <h6 className="info"><b>GPA:</b> {gpa[semesterCount].gpa}</h6>
-                                        <h6 className="info"><b>Total ECTS:</b> {ects[semesterCount].total}</h6>
-                                        <h6 className="info"><b>CGPA:</b> {gpa[semesterCount].cgpa}</h6>
+                                        <h6 className="info"><b>Semester ECTS:</b> {transcriptInfos[index].semester_ects}</h6>
+                                        <h6 className="info"><b>GPA:</b> {transcriptInfos[index].gpa.toFixed(2)}</h6>
+                                        <h6 className="info"><b>Total ECTS:</b> {transcriptInfos[index].total_ects}</h6>
+                                        <h6 className="info"><b>CGPA:</b> {transcriptInfos[index].cgpa.toFixed(2)}</h6>
                                     </div>
                                     <br/>
                                     <hr/>
                                 </div>
                             ))}
+                            <button className="download-transcript-button btn position-relative bottom-0 end-0 btn-success mt-2" onClick={downloadTableAsPdf}>Download Transcript</button>
                         </div>
-                        <button className="download-button btn position-relative bottom-0 end-0 btn-success mt-2" onClick={downloadTableAsPdf}>Download Transcript</button>
                     </div>
                 </div>
             </div>

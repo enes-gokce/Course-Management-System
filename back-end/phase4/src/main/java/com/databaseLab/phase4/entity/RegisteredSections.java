@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class RegisteredSections {
     private int section_id;
+    private String code;
     private String title;
     private int ects;
     private String name;
