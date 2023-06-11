@@ -4,6 +4,7 @@ const getProfileUrl = 'http://localhost:8080/api/profile/';
 const getAdvisorByStudentIdUrl = 'http://localhost:8080/api/profile/advisor/'
 const uploadProfilePictureUrl = 'http://localhost:8080/api/profile/upload/'
 const getProfilePictureUrl = 'http://localhost:8080/api/profile/picture/'
+const getAdvisingStudentsProfilesUrl = 'http://localhost:8080/api/profile/advisor/'
 
 class ProfileService{
 
@@ -34,6 +35,12 @@ class ProfileService{
                 'Authorization': `Bearer ${token}`
             },
             responseType: 'arraybuffer'
+        })
+    }
+
+    getAdvisingStudentsProfiles(teacher_id, token){
+        return axios.get(getAdvisingStudentsProfilesUrl+teacher_id+"/students", {
+            headers: {"Authorization": `Bearer ${token}`}
         })
     }
 }

@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,6 +23,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final ProfileRepository profileRepository;
+    private final AdvisorRepository advisorRepository;
 
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -35,6 +37,7 @@ public class UserService {
     public UserService(UserRepository userRepository, ProfileRepository profileRepository, AdvisorRepository advisorRepository) {
         this.userRepository = userRepository;
         this.profileRepository = profileRepository;
+        this.advisorRepository = advisorRepository;
     }
 
     public User getUserById(int user_id){

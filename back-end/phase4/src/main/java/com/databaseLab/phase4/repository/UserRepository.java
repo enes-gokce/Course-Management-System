@@ -30,6 +30,11 @@ public class UserRepository {
         return jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(User.class));
     }
 
+    public int findProfileIdByUserId(int user_id){
+        String query = "SELECT profile_id FROM " + tableName + " WHERE user_id = ?";
+        return jdbcTemplate.queryForObject(query, Integer.class, user_id);
+    }
+
     public void updateUser(int user_id, int dept_id, String password, int profile_id){
         String query = "CALL update_user(?, ?, ?, ?)";
         jdbcTemplate.update(query, user_id, dept_id, password, profile_id);

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -31,6 +32,11 @@ public class ProfileController {
     @GetMapping("/advisor/{student_id}")
     public Profile getAdvisorByStudentId(@PathVariable int student_id){
         return profileService.getAdvisorProfileByStudentId(student_id);
+    }
+
+    @GetMapping("/advisor/{teacher_id}/students")
+    public List<Profile> getAdvisingStudentsProfiles(@PathVariable int teacher_id){
+        return profileService.getAdvisingStudentsProfiles(teacher_id);
     }
 
     @PutMapping("/upload/{profile_id}")

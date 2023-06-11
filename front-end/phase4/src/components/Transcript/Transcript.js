@@ -8,6 +8,7 @@ import TranscriptService from "../services/TranscriptService";
 import grades from "../Grades/Grades";
 import SemesterService from "../services/SemesterService";
 import "./Transcript.css";
+import Menu from "../Menu/Menu";
 
 function Transcript() {
 
@@ -78,9 +79,7 @@ function Transcript() {
                 <div className="row">
                     <div className="menu col-md-2">
                         <div className="buttons">
-                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/registration")}>Course Registration</button>
-                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/grades")}>Grades</button>
-                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/transcript")}>Transcript</button>
+                            <Menu />
                         </div>
                     </div>
                     <div className="main col-md-10">

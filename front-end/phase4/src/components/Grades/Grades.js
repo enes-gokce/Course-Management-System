@@ -1,18 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import Navbar from "../Navbar/Navbar";
-import {useNavigate} from "react-router-dom";
 import "./Grades.css";
 import CourseService from "../services/CourseService";
 import { jsPDF } from 'jspdf';
 import autoTable from "jspdf-autotable";
+import Menu from "../Menu/Menu";
 
 function Grades(props) {
 
-    const navigate = useNavigate();
     const token = sessionStorage.getItem('token');
     const user_id = JSON.parse(sessionStorage.getItem('user')).user_id;
     let count = 0;
-
 
     const [grades, setGrades] = useState([])
 
@@ -51,9 +49,7 @@ function Grades(props) {
                 <div className="row">
                     <div className="menu col-md-2">
                         <div className="buttons">
-                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/registration")}>Course Registration</button>
-                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/grades")}>Grades</button>
-                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/transcript")}>Transcript</button>
+                            <Menu />
                         </div>
                     </div>
                     <div className="main col-md-10">

@@ -16,7 +16,7 @@ public class ProfileRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Profile findProfileById(int profile_id){
+    public Profile findProfileByProfileId(int profile_id){
         String query = "SELECT * FROM profile WHERE profile_id = " + profile_id;
         return jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(Profile.class));
     }
