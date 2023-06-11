@@ -35,7 +35,7 @@ public class ProfileRepository {
         jdbcTemplate.update(query, file, profile_id);
     }
 
-    public void updateValue(int profile_id, String value_to_change, String value){
+    public void updateChanged(int profile_id, String value_to_change, String value){
         String query = "UPDATE profile SET " + value_to_change + " = ? WHERE profile_id = ?";
         jdbcTemplate.update(query, value, profile_id);
     }

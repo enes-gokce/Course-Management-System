@@ -80,7 +80,6 @@ function Profile(){
             }
         }
 
-
         if (currentPassword === 'passwordFromProfile') { // Replace 'passwordFromProfile' with the actual password from the profile
             // Filter out empty values from formData
             const updatedData = Object.fromEntries(
@@ -88,7 +87,7 @@ function Profile(){
             );
 
         updateProfileInDatabase(updatedData);
-    };
+    }};
 
     const updateProfileInDatabase = (updatedData) => {
         // Perform your API call or database update here to save the updated profile data
@@ -197,7 +196,6 @@ function Profile(){
             </div>
         </div>
     );
-}
 }
 
 export default Profile;
