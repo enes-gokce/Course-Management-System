@@ -30,12 +30,17 @@ public class UserRepository {
         return jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(User.class));
     }
 
+    public int findProfileIdByUserId(int user_id){
+        String query = "SELECT profile_id FROM " + tableName + " WHERE user_id = ?";
+        return jdbcTemplate.queryForObject(query, Integer.class, user_id);
+    }
+
     public void updateUser(int user_id, int dept_id, String password, int profile_id){
         String query = "CALL update_user(?, ?, ?, ?)";
         jdbcTemplate.update(query, user_id, dept_id, password, profile_id);
     }
 
-    public String getRoleOfUser(int user_id){
+    public String findRoleOfUser(int user_id){
         String[] tableNames = {"Admin", "Teacher", "Student"};
         String role = "";
         for(String tableName : tableNames){
@@ -51,5 +56,10 @@ public class UserRepository {
     public List<User> findAllUsers(){
         String query = "SELECT * FROM " + tableName;
         return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(User.class));
+    }
+
+    public int findBasketIdOfStudent(int student_id){
+        String query = "SELECT basket_id FROM registration WHERE student_id = " + student_id;
+        return jdbcTemplate.queryForObject(query, Integer.class);
     }
 }

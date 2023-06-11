@@ -1,14 +1,10 @@
 package com.databaseLab.phase4.repository;
 
-import com.databaseLab.phase4.dto.PictureDto;
-import com.databaseLab.phase4.entity.Faculty;
 import com.databaseLab.phase4.entity.Profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import java.util.Arrays;
 
 @Repository
 public class ProfileRepository {
@@ -20,7 +16,7 @@ public class ProfileRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Profile findProfileById(int profile_id){
+    public Profile findProfileByProfileId(int profile_id){
         String query = "SELECT * FROM profile WHERE profile_id = " + profile_id;
         return jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(Profile.class));
     }

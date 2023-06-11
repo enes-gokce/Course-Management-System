@@ -1,34 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import Navbar from "../Navbar/Navbar";
-import {useNavigate} from "react-router-dom";
 import "./Grades.css";
 import CourseService from "../services/CourseService";
 import { jsPDF } from 'jspdf';
 import autoTable from "jspdf-autotable";
+import Menu from "../Menu/Menu";
 
 function Grades(props) {
 
-    const navigate = useNavigate();
     const token = sessionStorage.getItem('token');
     const user_id = JSON.parse(sessionStorage.getItem('user')).user_id;
     let count = 0;
 
-    const [grade, setGrade] = useState({
-        section_id: null,
-        title: '',
-        ects: null,
-        name: '',
-        surname: '',
-        midterm_grade: null,
-        project_grade: null,
-        final_grade: null,
-        letter_grade: ''
-    })
-    const [grades, setGrades] = useState(
-        [grade])
+    const [grades, setGrades] = useState([])
 
     useEffect(() => {
-        CourseService.getCurrentSemesterCourses(user_id, token).then(response => {
+        CourseService.getRegisteredSections(user_id, token).then(response => {
             console.log(response.data);
             setGrades(response.data);
         })
@@ -52,7 +39,7 @@ function Grades(props) {
         });
 
         // Save the PDF
-        doc.save('table.pdf');
+        doc.save('grades.pdf');
     }
 
     return (
@@ -62,9 +49,7 @@ function Grades(props) {
                 <div className="row">
                     <div className="menu col-md-2">
                         <div className="buttons">
-                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/registration")}>Ders Kayıt</button>
-                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/grades")}>Not Listesi</button>
-                            <button type="button" className="btn btn-secondary">Transcript</button>
+                            <Menu />
                         </div>
                     </div>
                     <div className="main col-md-10">
@@ -74,6 +59,7 @@ function Grades(props) {
                                 <thead>
                                 <tr>
                                     <th>Section</th>
+                                    <th>Course Code</th>
                                     <th>Course Title</th>
                                     <th>ECTS</th>
                                     <th>Teacher</th>
@@ -87,6 +73,7 @@ function Grades(props) {
                                 {grades.map((grade) => (
                                     <tr key={++count}>
                                         <td>{grade.section_id}</td>
+                                        <td>{grade.code}</td>
                                         <td>{grade.title}</td>
                                         <td>{grade.ects}</td>
                                         <td>{grade.name + " " + grade.surname}</td>

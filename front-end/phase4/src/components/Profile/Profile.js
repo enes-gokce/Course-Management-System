@@ -4,6 +4,7 @@ import Navbar from "../Navbar/Navbar";
 import {useNavigate} from "react-router-dom";
 import "./Profile.css"
 import ProfileService from "../services/ProfileService";
+import Menu from "../Menu/Menu";
 
 function Profile(){
 
@@ -66,9 +67,7 @@ function Profile(){
                 <div className="row">
                     <div className="menu col-md-2">
                         <div className="buttons">
-                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/registration")}>Ders Kayıt</button>
-                            <button type="button" className="btn btn-secondary" onClick={() => navigate("/grades")}>Not Listesi</button>
-                            <button type="button" className="btn btn-secondary">Transcript</button>
+                            <Menu />
                         </div>
                     </div>
                     <div className="main col-md-10">
