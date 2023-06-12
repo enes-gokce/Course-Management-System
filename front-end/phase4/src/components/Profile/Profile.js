@@ -5,11 +5,13 @@ import {useNavigate} from "react-router-dom";
 import "./Profile.css"
 import ProfileService from "../services/ProfileService";
 import Menu from "../Menu/Menu";
+import UserService from "../services/UserService";
 
 function Profile(){
 
     const token = sessionStorage.getItem('token');
     const profile_id = JSON.parse(sessionStorage.getItem('user')).profile_id;
+    const user_id = JSON.parse(sessionStorage.getItem('user')).user_id;
 
     const [file, setFile] = useState();
     const [formData, setFormData] = useState({
@@ -27,6 +29,13 @@ function Profile(){
     const navigate = new useNavigate();
 
     useEffect(() => {
+        ProfileService.getProfileById(profile_id, token).then(response => {
+            setFormData({
+                ...formData,
+                email: response.data.email,
+                phoneNumber: response.data.phone_number
+            })
+        })
         ProfileService.getProfilePicture(profile_id, token).then(response => {
             const pictureBlob = new Blob([response.data], { type: 'image/jpeg' });
             setPictureURL(URL.createObjectURL(pictureBlob));
@@ -51,6 +60,29 @@ function Profile(){
         event.preventDefault();
         // Handle form submission here, e.g. send data to server
         console.log(formData);
+        const buttonClicked = event.nativeEvent.submitter;
+
+        if(buttonClicked.id === "btn-password"){
+            if(formData.newPassword === formData.confirmPassword){
+                let passwordDto = {current_password: formData.currentPassword, new_password: formData.newPassword}
+                UserService.updatePassword(user_id, token, passwordDto).then(response => {
+                    if(response.data.token === "success"){
+                        window.location.reload();
+                    }
+                    else{
+                        alert("Your current password is wrong. Please control it!")
+                    }
+                });
+            }
+            else{
+                alert("New password and confirm new password does not match. Please control them!")
+            }
+        }
+        else if(buttonClicked.id === "btn-email-phone"){
+            let email_phoneDto = {email: formData.email, phone_number: formData.phoneNumber}
+            ProfileService.updateProfile(token, profile_id, email_phoneDto);
+            window.location.reload();
+        }
     }
 
     function handleUpload(){
@@ -133,7 +165,8 @@ function Profile(){
                                                     onChange={handleChange}
                                                 />
                                             </div>
-                                            <button type="submit">Submit</button>
+                                            <button id="btn-email-phone" className="btn btn-sm btn-success me-2" type="submit">Update Email / Phone Number</button>
+                                            <button id="btn-password" className="btn btn-sm btn-success" type="submit">Update Password</button>
                                         </form>
                                     </div>
                                 </div>

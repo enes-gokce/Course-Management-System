@@ -69,6 +69,25 @@ public class UserService {
         }
     }
 
+    public JwtDto updatePassword(String current_password, String new_password, int user_id){
+        User currentUser = userRepository.findUserByUserId(user_id);
+        User tempUser = new User();
+        JwtDto jwtDto = new JwtDto();
+        if(passwordEncoder.matches(current_password, userRepository.findUserByUserId(user_id).getPassword())){
+            tempUser.setUser_id(currentUser.getUser_id());
+            tempUser.setDept_id(currentUser.getDept_id());
+            tempUser.setPassword(passwordEncoder.encode(new_password));
+            tempUser.setProfile_id(currentUser.getProfile_id());
+            userRepository.updateUser(tempUser.getUser_id(), tempUser.getDept_id(), tempUser.getPassword(), tempUser.getProfile_id());
+            jwtDto.setToken("success");
+        }
+
+        else{
+            jwtDto.setToken("fail");
+        }
+        return jwtDto;
+    }
+
     public JwtDto login(AuthDto authDto) throws Exception {
 
         try {

@@ -1,5 +1,6 @@
 package com.databaseLab.phase4.controller;
 
+import com.databaseLab.phase4.dto.EmailPhoneDto;
 import com.databaseLab.phase4.entity.Profile;
 import com.databaseLab.phase4.entity.User;
 import com.databaseLab.phase4.service.ProfileService;
@@ -50,5 +51,10 @@ public class ProfileController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_JPEG);
         return new ResponseEntity<>(pictureData, headers, HttpStatus.OK);
+    }
+
+    @PutMapping("/update/{profile_id}")
+    public void updateProfile(@PathVariable int profile_id, @RequestBody EmailPhoneDto emailPhoneDto){
+        profileService.updateProfileInDatabase(profile_id, emailPhoneDto);
     }
 }

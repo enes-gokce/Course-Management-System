@@ -1,5 +1,6 @@
 package com.databaseLab.phase4.service;
 
+import com.databaseLab.phase4.dto.EmailPhoneDto;
 import com.databaseLab.phase4.entity.Profile;
 import com.databaseLab.phase4.repository.AdvisorRepository;
 import com.databaseLab.phase4.repository.ProfileRepository;
@@ -49,6 +50,27 @@ public class ProfileService {
 
     public byte[] getPictureById(int profile_id){
         return profileRepository.findPictureById(profile_id);
+    }
+
+    public void updatePassword(int profile_id, String new_password) throws IOException {
+        profileRepository.updatePassword(profile_id, new_password);
+    }
+
+    public void updateProfileInDatabase(int profile_id, EmailPhoneDto updatedData) {
+        Profile profile = profileRepository.findProfileByProfileId(profile_id);
+        if (profile != null) {
+            // Update the profile data with the updated values
+            if (updatedData.getEmail() != null) {
+                profile.setEmail(updatedData.getEmail());
+            }
+            if (updatedData.getPhone_number() != null) {
+                profile.setPhone_number(updatedData.getPhone_number());
+            }
+
+            // Update the profile in the database
+            profileRepository.updateChanged(profile_id, "email", profile.getEmail());
+            profileRepository.updateChanged(profile_id, "phone_number", profile.getPhone_number());
+        }
     }
 }
 
