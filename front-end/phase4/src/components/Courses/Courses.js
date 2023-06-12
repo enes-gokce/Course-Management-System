@@ -4,11 +4,13 @@ import Menu from '../Menu/Menu';
 import './Courses.css';
 import TeacherService from "../services/TeacherService";
 import GradeDistributionChart from "./GradeDistributionChart";
+import AdminService from "../services/AdminService";
 
 function Courses() {
 
     const token = sessionStorage.getItem('token');
     const user_id = JSON.parse(sessionStorage.getItem('user')).user_id;
+    const department_id = JSON.parse(sessionStorage.getItem('user')).dept_id;
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [showStudents, setShowStudents] = useState(false);
@@ -26,9 +28,15 @@ function Courses() {
     const [buttonColors, setButtonColors] = useState({midterm: 'dark', project: 'dark', final: 'dark'})
 
     useEffect(() => {
-        TeacherService.getSectionsByTeacherId(user_id, token).then(response => {
-            setCourses(response.data);
+        if(user_id > 1 && user_id <= 4 )
+            TeacherService.getSectionsByTeacherId(user_id, token).then(response => {
+                setCourses(response.data);
         })
+        else if (user_id === 1){
+            AdminService.getSectionsInDepartment(department_id, token).then(response => {
+                setCourses(response.data);
+            })
+        }
     }, [user_id, token])
 
     function openModal(student) {

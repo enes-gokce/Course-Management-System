@@ -2,8 +2,10 @@ package com.databaseLab.phase4.service;
 
 import com.databaseLab.phase4.dto.GradesDto;
 import com.databaseLab.phase4.dto.GradesStatsDto;
+import com.databaseLab.phase4.dto.RegistrationDto;
 import com.databaseLab.phase4.entity.RegisteredSections;
 import com.databaseLab.phase4.entity.Student;
+import com.databaseLab.phase4.repository.AdvisorRepository;
 import com.databaseLab.phase4.repository.CourseRepository;
 import com.databaseLab.phase4.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +18,13 @@ public class TeacherService {
 
     private final CourseRepository courseRepository;
     private final StudentRepository studentRepository;
+    private final AdvisorRepository advisorRepository;
 
     @Autowired
-    public TeacherService(CourseRepository courseRepository, StudentRepository studentRepository) {
+    public TeacherService(CourseRepository courseRepository, StudentRepository studentRepository, AdvisorRepository advisorRepository) {
         this.courseRepository = courseRepository;
         this.studentRepository = studentRepository;
+        this.advisorRepository = advisorRepository;
     }
 
     public List<RegisteredSections> getSectionsByTeacherId(int teacher_id){
@@ -37,5 +41,9 @@ public class TeacherService {
 
     public GradesStatsDto getSectionGradeStats(int section_id){
         return courseRepository.findSectionGradesStats(section_id);
+    }
+
+    public List<RegistrationDto> getStudentRegistrationsByAdvisor(int advisor_id){
+        return advisorRepository.findStudentRegistrationsByAdvisor(advisor_id);
     }
 }

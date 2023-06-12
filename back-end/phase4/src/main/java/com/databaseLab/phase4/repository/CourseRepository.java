@@ -33,7 +33,7 @@ public class CourseRepository {
     }
 
     public List<RegisteredSections> findRegisteredSections(int user_id) {
-        String query = "SELECT * FROM registered_sections WHERE student_id = " + user_id;
+        String query = "SELECT * FROM registered_sections WHERE student_id = " + user_id + " ORDER BY code ASC";
         return jdbcTemplate.query(query, new ResultSetExtractor<List<RegisteredSections>>() {
             @Override
             public List<RegisteredSections> extractData(ResultSet rs) throws SQLException, DataAccessException {
@@ -59,13 +59,13 @@ public class CourseRepository {
     }
 
     public List<Course> findCurrentSemesterCourses(int year){
-        String query = "SELECT * FROM current_semester_sections WHERE year = " + year;
-        return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Course.class));
+        String query = "SELECT * FROM current_semester_sections WHERE year = ? ORDER BY code ASC";
+        return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Course.class), year);
     }
 
     public List<Course> findAddedSectionsInBasket(int basket_id){
-        String query = "SELECT * FROM added_sections_in_basket WHERE basket_id = " + basket_id;
-        return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Course.class));
+        String query = "SELECT * FROM added_sections_in_basket WHERE basket_id = ? ORDER BY code ASC";
+        return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Course.class), basket_id);
     }
 
     public void insertSectionToBasket(int section_id, int basket_id){

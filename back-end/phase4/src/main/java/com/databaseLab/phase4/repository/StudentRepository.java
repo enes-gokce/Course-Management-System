@@ -1,10 +1,13 @@
 package com.databaseLab.phase4.repository;
 
+import com.databaseLab.phase4.dto.StudentDto;
 import com.databaseLab.phase4.entity.Course;
+import com.databaseLab.phase4.entity.Faculty;
 import com.databaseLab.phase4.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,4 +26,8 @@ public class StudentRepository {
         return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Student.class), section_id);
     }
 
+    public StudentDto findStudentDetails(int student_id){
+        String query = "SELECT user_id, starting_date FROM student where user_id = ?";
+        return jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(StudentDto.class), student_id);
+    }
 }

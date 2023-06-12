@@ -8,6 +8,8 @@ import Grades from "./Grades/Grades";
 import Transcript from "./Transcript/Transcript";
 import AdvisingStudents from "./Advising Students/AdvisingStudents";
 import Courses from "./Courses/Courses";
+import Students from "./Students/Students";
+import Teachers from "./Teachers/Teachers";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
                   <Route path="/transcript" element={<Transcript />} />
                   <Route path="/advising-students" element={<AdvisingStudents />} />
                   <Route path="/courses" element={<Courses />} />
+                  <Route path="/students" element={<Students />} />
+                  <Route path="/teachers" element={<Teachers />} />
               </Routes>
           </Router>
       </div>

@@ -1,5 +1,6 @@
 package com.databaseLab.phase4.controller;
 
+import com.databaseLab.phase4.dto.StudentDto;
 import com.databaseLab.phase4.entity.User;
 import com.databaseLab.phase4.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -24,5 +25,10 @@ public class UserController {
     @GetMapping("/role/{user_id}")
     public String getUserByEmail(@PathVariable int user_id){
         return userService.getRoleOfUser(user_id);
+    }
+
+    @GetMapping("/student/details/{student_id}")
+    public StudentDto getStudentDetails(@PathVariable int student_id){
+        return userService.getStudentDetails(student_id);
     }
 }

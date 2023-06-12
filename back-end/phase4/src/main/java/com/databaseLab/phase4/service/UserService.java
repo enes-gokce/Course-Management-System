@@ -3,10 +3,12 @@ package com.databaseLab.phase4.service;
 import com.databaseLab.phase4.config.JwtUtil;
 import com.databaseLab.phase4.dto.AuthDto;
 import com.databaseLab.phase4.dto.JwtDto;
+import com.databaseLab.phase4.dto.StudentDto;
 import com.databaseLab.phase4.entity.Profile;
 import com.databaseLab.phase4.entity.User;
 import com.databaseLab.phase4.repository.AdvisorRepository;
 import com.databaseLab.phase4.repository.ProfileRepository;
+import com.databaseLab.phase4.repository.StudentRepository;
 import com.databaseLab.phase4.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,7 +17,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,6 +25,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final ProfileRepository profileRepository;
     private final AdvisorRepository advisorRepository;
+    private final StudentRepository studentRepository;
 
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -34,10 +36,11 @@ public class UserService {
     AuthenticationManager authenticationManager;
 
     @Autowired
-    public UserService(UserRepository userRepository, ProfileRepository profileRepository, AdvisorRepository advisorRepository) {
+    public UserService(UserRepository userRepository, ProfileRepository profileRepository, AdvisorRepository advisorRepository, StudentRepository studentRepository) {
         this.userRepository = userRepository;
         this.profileRepository = profileRepository;
         this.advisorRepository = advisorRepository;
+        this.studentRepository = studentRepository;
     }
 
     public User getUserById(int user_id){
@@ -52,6 +55,10 @@ public class UserService {
 
     public String getRoleOfUser(int user_id){
         return userRepository.findRoleOfUser(user_id);
+    }
+
+    public StudentDto getStudentDetails(int user_id){
+        return studentRepository.findStudentDetails(user_id);
     }
 
     public void encodeAllPasswords(){

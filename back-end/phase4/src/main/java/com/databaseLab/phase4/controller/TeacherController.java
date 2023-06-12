@@ -2,6 +2,7 @@ package com.databaseLab.phase4.controller;
 
 import com.databaseLab.phase4.dto.GradesDto;
 import com.databaseLab.phase4.dto.GradesStatsDto;
+import com.databaseLab.phase4.dto.RegistrationDto;
 import com.databaseLab.phase4.entity.RegisteredSections;
 import com.databaseLab.phase4.entity.Student;
 import com.databaseLab.phase4.service.TeacherService;
@@ -38,5 +39,10 @@ public class TeacherController {
     @GetMapping("/get/section/grades-stats/{section_id}")
     public GradesStatsDto getSectionGradeStats(@PathVariable int section_id){
         return teacherService.getSectionGradeStats(section_id);
+    }
+
+    @GetMapping("/get/registrations/{teacher_id}")
+    public List<RegistrationDto> getStudentRegistrationsByAdvisor(@PathVariable int teacher_id){
+        return teacherService.getStudentRegistrationsByAdvisor(teacher_id);
     }
 }

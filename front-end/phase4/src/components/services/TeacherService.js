@@ -4,6 +4,7 @@ const getSectionsByTeacherIdUrl = 'http://localhost:8080/api/teacher/get/section
 const getStudentsBySectionIdUrl = 'http://localhost:8080/api/teacher/get/students/'
 const enterGradeUrl = 'http://localhost:8080/api/teacher/update/grades'
 const getSectionGradesStatsUrl = 'http://localhost:8080/api/teacher/get/section/grades-stats/'
+const getStudentRegistrationsUrl = 'http://localhost:8080/api/teacher/get/registrations/'
 class TeacherService{
 
     getSectionsByTeacherId(user_id, token){
@@ -29,6 +30,13 @@ class TeacherService{
             headers: {"Authorization": `Bearer ${token}`}
         })
     }
+
+    getStudentRegistrations(user_id, token){
+        return axios.get( getStudentRegistrationsUrl+user_id, {
+            headers: {"Authorization": `Bearer ${token}`}
+        })
+    }
+
 }
 
 export default new TeacherService();
