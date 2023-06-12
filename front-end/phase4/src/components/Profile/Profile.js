@@ -66,7 +66,7 @@ function Profile(){
         setPictureURL(URL.createObjectURL(file));
     }
 
-    const  handleSubmit = (event) => {
+    /*const  handleSubmit = (event) => {
         event.preventDefault();
         // Handle form submission here, e.g. send data to server
 
@@ -87,7 +87,38 @@ function Profile(){
             );
 
         updateProfileInDatabase(updatedData);
-    }};
+    }};*/
+
+    const handleSubmit = event => {
+        event.preventDefault();
+
+        const { currentPassword, newPassword, confirmPassword } = formData;
+
+        if (currentPassword !== '') {
+            ProfileService.getProfileById(profile_id, token).then(response => {
+                String password = response.data.password;
+            })
+            if (currentPassword === password) {
+                // Check if new password and confirm new password are not empty and match
+                if (newPassword.trim() !== '' && newPassword === confirmPassword) {
+                    // Update the password in the database
+                    updatePasswordInDatabase(newPassword);
+                }
+            } else {
+                // Handle the case when the current password is incorrect
+                console.log('Current password is incorrect.');
+            }
+        }
+
+        // Filter out empty and unchanged values from formData
+        const updatedData = Object.fromEntries(
+            Object.entries(formData).filter(([key, value]) => value.trim() !== '' && value !== prevFormData[key])
+        );
+
+        if (Object.keys(updatedData).length > 0) {
+            updateProfileInDatabase(updatedData);
+        }
+    };
 
     const updateProfileInDatabase = (updatedData) => {
         // Perform your API call or database update here to save the updated profile data
@@ -98,9 +129,7 @@ function Profile(){
     };
 
     const updatePasswordInDatabase = (newPassword) => {
-        // Perform your API call or database update here to update the password
-        // Pass the newPassword to the API endpoint or database update function
-        console.log('Updating password:', newPassword); // Just for testing, you can remove this line
+        ProfileService.updatePassword(token, profile_id, newPassword)
     };
 
     function handleUpload(){

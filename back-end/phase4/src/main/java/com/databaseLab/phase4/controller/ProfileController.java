@@ -38,11 +38,6 @@ public class ProfileController {
         profileService.uploadProfilePicture(profile_id, file);
     }
 
-    @PutMapping("/update/{profile_id}")
-    public void updateVal(@PathVariable int profile_id, @RequestPart("value") String value_to_change, String value) throws IOException {
-        profileService.updateVal(profile_id, value_to_change, value);
-    }
-
     @GetMapping("/picture/{profileId}")
     public ResponseEntity<byte[]> getProfilePicture(@PathVariable int profileId) {
         byte[] pictureData = profileService.getPictureById(profileId);

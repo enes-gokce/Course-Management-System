@@ -34,8 +34,25 @@ public class ProfileService {
         profileRepository.uploadPicture(profile_id, file.getBytes());
     }
 
-    public void updateVal(int profile_id, String val_to_change, String val) throws IOException {
-        //profileRepository.updateValue(profile_id, val_to_change, val);
+    public void updatePassword(int profile_id, String new_password) throws IOException {
+        profileRepository.updatePassword(profile_id, new_password);
+    }
+
+    public void updateProfileInDatabase(int profile_id, Profile updatedData) {
+        Profile profile = profileRepository.findProfileById(profile_id);
+        if (profile != null) {
+            // Update the profile data with the updated values
+            if (updatedData.getEmail() != null) {
+                profile.setEmail(updatedData.getEmail());
+            }
+            if (updatedData.getPhone_number() != null) {
+                profile.setPhone_number(updatedData.getPhone_number());
+            }
+
+            // Update the profile in the database
+            profileRepository.updateChanged(profile_id, "email", profile.getEmail());
+            profileRepository.updateChanged(profile_id, "phone_number", profile.getPhone_number());
+        }
     }
 
     public byte[] getPictureById(int profile_id){
