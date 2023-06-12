@@ -1,6 +1,8 @@
 package com.databaseLab.phase4.repository;
 
 import com.databaseLab.phase4.dto.BasketStatisticsDto;
+import com.databaseLab.phase4.dto.GradesStatsDto;
+import com.databaseLab.phase4.dto.GradesDto;
 import com.databaseLab.phase4.dto.StatusDto;
 import com.databaseLab.phase4.entity.Course;
 import com.databaseLab.phase4.entity.RegisteredSections;
@@ -14,6 +16,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -30,7 +33,7 @@ public class CourseRepository {
     }
 
     public List<RegisteredSections> findRegisteredSections(int user_id) {
-        String query = "SELECT * FROM registered_sections WHERE student_id = " + user_id;
+        String query = "SELECT * FROM registered_sections WHERE student_id = " + user_id + " ORDER BY code ASC";
         return jdbcTemplate.query(query, new ResultSetExtractor<List<RegisteredSections>>() {
             @Override
             public List<RegisteredSections> extractData(ResultSet rs) throws SQLException, DataAccessException {
@@ -56,13 +59,13 @@ public class CourseRepository {
     }
 
     public List<Course> findCurrentSemesterCourses(int year){
-        String query = "SELECT * FROM current_semester_sections WHERE year = " + year;
-        return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Course.class));
+        String query = "SELECT * FROM current_semester_sections WHERE year = ? ORDER BY code ASC";
+        return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Course.class), year);
     }
 
     public List<Course> findAddedSectionsInBasket(int basket_id){
-        String query = "SELECT * FROM added_sections_in_basket WHERE basket_id = " + basket_id;
-        return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Course.class));
+        String query = "SELECT * FROM added_sections_in_basket WHERE basket_id = ? ORDER BY code ASC";
+        return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Course.class), basket_id);
     }
 
     public void insertSectionToBasket(int section_id, int basket_id){
@@ -128,5 +131,34 @@ public class CourseRepository {
 
         String queryUpdate = "CALL update_registration(?, ?, ?, ?, ?)";
         jdbcTemplate.update(queryUpdate, registration.getRegistration_id(), registration.getStudent_id(), registration.getBasket_id(), statusDto.getRegistration_status(), statusDto.getAdvisor_approval());
+    }
+
+    public List<RegisteredSections> findSectionsByTeacherId(int teacher_id){
+        String query = "SELECT * FROM teacher_current_semester_sections WHERE teacher_id = " + teacher_id;
+        return jdbcTemplate.query(query, new ResultSetExtractor<List<RegisteredSections>>() {
+            @Override
+            public List<RegisteredSections> extractData(ResultSet rs) throws SQLException, DataAccessException {
+                List<RegisteredSections> sections = new ArrayList<>();
+                while (rs.next()) {
+                    RegisteredSections section = new RegisteredSections();
+                    section.setSection_id(rs.getInt("section_id"));
+                    section.setCode(rs.getString("code"));
+                    section.setTitle(rs.getString("course_title"));
+                    sections.add(section);
+                }
+                return sections;
+            }
+        });
+    }
+
+    public void updateGradesByGradesDto(GradesDto gradesDto){
+        String query = "CALL update_grades(?,?,?,?,?)";
+        jdbcTemplate.update(query, gradesDto.getGrades_id(), BigDecimal.valueOf(gradesDto.getMidterm_grade()),
+                BigDecimal.valueOf(gradesDto.getProject_grade()), BigDecimal.valueOf(gradesDto.getFinal_grade()), gradesDto.getLetter_grade());
+    }
+
+    public GradesStatsDto findSectionGradesStats(int section_id){
+        String query = "SELECT * FROM section_grades_stats WHERE section_id = ?";
+        return jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(GradesStatsDto.class), section_id);
     }
 }

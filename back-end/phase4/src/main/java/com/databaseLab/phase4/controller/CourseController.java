@@ -41,7 +41,6 @@ public class CourseController {
 
     @GetMapping("/basket/get/registrationStatus/{user_id}")
     public StatusDto getRegistrationStatus(@PathVariable int user_id){
-        System.out.println(courseService.getRegistrationStatus(user_id));
         return courseService.getRegistrationStatus(user_id);
     }
 
@@ -52,7 +51,6 @@ public class CourseController {
 
     @PutMapping("/basket/update/registrationStatus/{user_id}")
     public void updateRegistrationStatus(@RequestBody StatusDto statusDto, @PathVariable int user_id){
-        System.out.println("bura" + statusDto);
         courseService.updateRegistrationStatus(user_id, statusDto);
     }
 

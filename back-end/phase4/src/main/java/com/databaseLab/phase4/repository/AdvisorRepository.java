@@ -1,5 +1,6 @@
 package com.databaseLab.phase4.repository;
 
+import com.databaseLab.phase4.dto.RegistrationDto;
 import com.databaseLab.phase4.entity.Faculty;
 import com.databaseLab.phase4.entity.Profile;
 import com.databaseLab.phase4.entity.User;
@@ -26,7 +27,12 @@ public class AdvisorRepository {
     }
 
     public List<Integer> findAdvisingStudentsByAdvisorId(int advisor_id){
-        String query = "SELECT student_id FROM advisor WHERE teacher_id = ?";
+        String query = "SELECT student_id FROM advisor WHERE teacher_id = ? ORDER BY student_id ASC";
         return jdbcTemplate.queryForList(query, Integer.class, advisor_id);
+    }
+
+    public List<RegistrationDto> findStudentRegistrationsByAdvisor(int advisor_id){
+        String query = "SELECT * FROM student_registrations WHERE teacher_id = ? ORDER BY student_id ASC";
+        return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(RegistrationDto.class), advisor_id);
     }
 }

@@ -24,7 +24,6 @@ public class CourseService {
     }
 
     public List<RegisteredSections> getRegisteredSections(int user_id){
-        System.out.println(courseRepository.findRegisteredSections(user_id));
         return courseRepository.findRegisteredSections(user_id);
     }
 
@@ -53,7 +52,6 @@ public class CourseService {
 
     public BasketStatisticsDto getBasketStatistics(int user_id){
         int basket_id = userRepository.findBasketIdOfStudent(user_id);
-        System.out.println(courseRepository.findBasketStatistics(basket_id).getTotalECTS());
         return courseRepository.findBasketStatistics(basket_id);
     }
 

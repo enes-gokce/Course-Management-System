@@ -84,6 +84,7 @@ function Transcript() {
                     </div>
                     <div className="main col-md-10">
                         <h3>Transcript</h3>
+                        {allGrades.length > 0 &&
                         <div className="table-div mt-2">
                             {allGrades.map((grades, index) => (
                                 <div key={++count}>
@@ -120,7 +121,7 @@ function Transcript() {
                                 </div>
                             ))}
                             <button className="download-transcript-button btn position-relative bottom-0 end-0 btn-success mt-2" onClick={downloadTableAsPdf}>Download Transcript</button>
-                        </div>
+                        </div> }
                     </div>
                 </div>
             </div>

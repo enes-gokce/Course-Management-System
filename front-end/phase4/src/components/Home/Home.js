@@ -6,6 +6,8 @@ import {useNavigate} from "react-router-dom";
 import UserService from "../services/UserService";
 import ProfileService from "../services/ProfileService";
 import Menu from "../Menu/Menu";
+import TeacherService from "../services/TeacherService";
+import AdminService from "../services/AdminService";
 
 function Home(){
 
@@ -13,24 +15,45 @@ function Home(){
 
     const token = sessionStorage.getItem('token');
     const user_id = JSON.parse(sessionStorage.getItem('user')).user_id;
+    const department_id = JSON.parse(sessionStorage.getItem('user')).dept_id;
+
     const [role, setRole] = useState("");
     const [numberOfAdvisingStudents, setNumberOfAdvisingStudents] = useState(0);
+    const [studentDetails, setStudentDetails] = useState({user_id:"", starting_date:""});
+    const [numberOfCourses, setNumberOfCourses] = useState();
+    const [numberOfStudents, setNumberOfStudents] = useState();
 
     useEffect(() => {
         UserService.getRoleOfUser(user_id, token).then(response => {
             setRole(response.data);
-            if(role === "Student"){
+            sessionStorage.setItem('role', role);
+            console.log(role);
+            if(response.data === "Student"){
                 ProfileService.getAdvisorProfileByStudentId(user_id, token).then(response => {
                     setAdvisor({name: response.data.name, surname: response.data.surname, email: response.data.email})
                 })
+                UserService.getStudentDetails(user_id, token).then(response => {
+                    setStudentDetails(response.data);
+                })
             }
-            if(role === "Teacher"){
+            if(response.data === "Teacher"){
                 ProfileService.getAdvisingStudentsProfiles(user_id, token).then(response => {
                     setNumberOfAdvisingStudents(response.data.length);
                 })
+                TeacherService.getSectionsByTeacherId(user_id, token).then(response => {
+                    setNumberOfCourses(response.data.length);
+                })
+            }
+            if(response.data === "Admin"){
+                AdminService.getSectionsInDepartment(department_id, token).then(response => {
+                    setNumberOfCourses(response.data.length);
+                })
+                AdminService.getStudentProfiles(department_id, token).then(response => {
+                    setNumberOfStudents(response.data.length);
+                })
             }
         })
-    }, [token, user_id, role])
+    }, [token, user_id, role, department_id])
 
     return (
         <div>
@@ -62,18 +85,28 @@ function Home(){
                             {role === "Student" && <div className="box">
                                 <h1>Student Information</h1>
                                 <hr/>
-                                <p>Date of registration: 06.09.2022</p>
-                                <p>CGPA: 3.36</p>
+                                <p>Student ID: {studentDetails.user_id}</p>
+                                <p>Date of registration:<br/> {studentDetails.starting_date.slice(0, 10)}</p>
                             </div>}
                             {role === "Teacher" && <div className="box">
                                 <h1>Course Information</h1>
                                 <hr/>
-                                <p>Number of Course You Teach: </p>
+                                <p>Number of Course You Teach: {numberOfCourses}</p>
                             </div>}
                             {role === "Teacher" && <div className="box">
                                 <h1>Student Information</h1>
                                 <hr/>
                                 <p>Number of Advising Students: {numberOfAdvisingStudents}</p>
+                            </div>}
+                            {role === "Admin" && <div className="box">
+                                <h1>Course Information</h1>
+                                <hr/>
+                                <p>Number of Courses: {numberOfCourses}</p>
+                            </div>}
+                            {role === "Admin" && <div className="box">
+                                <h1>Student Information</h1>
+                                <hr/>
+                                <p>Number of Students: {numberOfStudents}</p>
                             </div>}
                         </div>
                     </div>

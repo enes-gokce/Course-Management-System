@@ -3,6 +3,7 @@ import axios from 'axios';
 const loginUrl = 'http://localhost:8080/auth/login'
 const getUserByEmailUrl = 'http://localhost:8080/api/user/'
 const getRoleOfUserUrl = 'http://localhost:8080/api/user/role/'
+const getStudentDetailsUrl = 'http://localhost:8080/api/user/student/details/'
 class UserService{
 
       login(email, password){
@@ -23,6 +24,12 @@ class UserService{
             headers: {"Authorization": `Bearer ${token}`}
         })
       }
+
+    getStudentDetails(user_id, token){
+        return axios.get(getStudentDetailsUrl+user_id, {
+            headers: {"Authorization": `Bearer ${token}`}
+        })
+    }
 }
 
 export default new UserService();
