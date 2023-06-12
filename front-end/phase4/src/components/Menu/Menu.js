@@ -25,7 +25,7 @@ function Menu(props) {
                 <span>
                     <button type="button" className="btn btn-secondary" onClick={() => navigate("/registration")}>Course Registration</button>
                     <button type="button" className="btn btn-secondary" onClick={() => navigate("/courses")}>Courses</button>
-                    <button type="button" className="btn btn-secondary" onClick={() => navigate("/advising-students")}>Advising Students</button>
+                    <button type="button" className="btn btn-secondary" onClick={() => navigate("/advising-students")}>Consulting Students</button>
                 </span>}
             {role === "Admin" &&
                 <span>
