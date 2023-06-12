@@ -1,5 +1,7 @@
 package com.databaseLab.phase4.controller;
 
+import com.databaseLab.phase4.dto.JwtDto;
+import com.databaseLab.phase4.dto.PasswordDto;
 import com.databaseLab.phase4.dto.StudentDto;
 import com.databaseLab.phase4.entity.User;
 import com.databaseLab.phase4.service.UserService;
@@ -30,5 +32,10 @@ public class UserController {
     @GetMapping("/student/details/{student_id}")
     public StudentDto getStudentDetails(@PathVariable int student_id){
         return userService.getStudentDetails(student_id);
+    }
+
+    @PutMapping("update/password/{user_id}")
+    public JwtDto updatePassword(@RequestBody PasswordDto passwordDto, @PathVariable int user_id){
+        return userService.updatePassword(passwordDto.getCurrent_password(), passwordDto.getNew_password(), user_id);
     }
 }

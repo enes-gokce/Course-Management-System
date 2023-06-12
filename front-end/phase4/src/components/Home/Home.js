@@ -18,7 +18,7 @@ function Home(){
     const department_id = JSON.parse(sessionStorage.getItem('user')).dept_id;
 
     const [role, setRole] = useState("");
-    const [numberOfAdvisingStudents, setNumberOfAdvisingStudents] = useState(0);
+    const [numberOfConsultingStudents, setNumberOfConsultingStudents] = useState(0);
     const [studentDetails, setStudentDetails] = useState({user_id:"", starting_date:""});
     const [numberOfCourses, setNumberOfCourses] = useState();
     const [numberOfStudents, setNumberOfStudents] = useState();
@@ -38,7 +38,7 @@ function Home(){
             }
             if(response.data === "Teacher"){
                 ProfileService.getAdvisingStudentsProfiles(user_id, token).then(response => {
-                    setNumberOfAdvisingStudents(response.data.length);
+                    setNumberOfConsultingStudents(response.data.length);
                 })
                 TeacherService.getSectionsByTeacherId(user_id, token).then(response => {
                     setNumberOfCourses(response.data.length);
@@ -96,7 +96,7 @@ function Home(){
                             {role === "Teacher" && <div className="box">
                                 <h1>Student Information</h1>
                                 <hr/>
-                                <p>Number of Advising Students: {numberOfAdvisingStudents}</p>
+                                <p>Number of Consulting Students: {numberOfConsultingStudents}</p>
                             </div>}
                             {role === "Admin" && <div className="box">
                                 <h1>Course Information</h1>

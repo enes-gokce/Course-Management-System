@@ -32,7 +32,7 @@ function AdvisingStudents(props) {
                     </div>
                     <div className="main col-md-10">
                         <div className="students">
-                            <h3>Advising Students</h3>
+                            <h3>Consulting Students</h3>
                             <div className="table-div mt-2">
                                 <table className="table table-striped table-hover">
                                     <thead>

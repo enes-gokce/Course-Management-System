@@ -189,7 +189,7 @@ function Courses() {
                                 {isModalOpen && (
                                     <div className="mdl-overlay">
                                         <div className="mdl">
-                                            <h2>Information Box</h2>
+                                            <h2>Enter Grade</h2>
                                             <form onSubmit={handleSubmit}>
                                                 <div>
                                                     <label htmlFor="midterm_grade">Midterm Grade:</label>
@@ -228,8 +228,8 @@ function Courses() {
                                                     />
                                                 </div>
                                                 <div className="modal-buttons">
-                                                    <button type="submit">Submit</button>
-                                                    <button onClick={closeModal}>Close</button>
+                                                    <button className="btn btn-success btn-sm me-2" type="submit">Submit</button>
+                                                    <button className="btn btn-danger btn-sm" onClick={closeModal}>Close</button>
                                                 </div>
                                             </form>
                                         </div>
