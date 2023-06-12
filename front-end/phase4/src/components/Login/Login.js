@@ -27,6 +27,9 @@ function Login(){
                 sessionStorage.setItem("user", JSON.stringify(userData));
                 navigate("/home");
             }
+            else if (token === "null"){
+                alert("There is a problem in email or password. Try again!");
+            }
         } catch (error) {
             // Handle any errors
         }

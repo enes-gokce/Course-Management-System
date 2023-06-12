@@ -5,7 +5,6 @@ import org.springframework.data.annotation.Id;
 
 @Data
 public class Course {
-
     private String code;
     private String title;
     private int ects;
